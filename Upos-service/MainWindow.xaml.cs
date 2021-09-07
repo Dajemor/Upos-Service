@@ -641,11 +641,15 @@ namespace Upos_service
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
                 HttpClient http = new HttpClient();
-                Version latestVersion = new Version(http.GetStringAsync(@"https://raw.githubusercontent.com/Dajemor/Upos-Service/main/version.txt").GetAwaiter().GetResult());
+                Version latestVersion = new Version(http.GetStringAsync(@"https://raw.githubusercontent.com/Dajemor/Upos-Service/master/version.txt").GetAwaiter().GetResult());
                 if (latestVersion > currentVersion)
                 {
-                    MessageBox.Show("Найдена новая версия");
-                    Process.Start("https://github.com/Dajemor/Upos-Service");
+
+                    var result = MessageBox.Show("Найдена новая версия, Скачать?","Обновление", MessageBoxButton.YesNo,MessageBoxImage.Information);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Process.Start($"https://github.com/Dajemor/Upos-Service/releases/download/"+ latestVersion+"/Upos_service.rar");
+                    }
                 }
                 else
                 {

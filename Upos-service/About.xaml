@@ -14,7 +14,7 @@
         <Label Content="Почта:" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" FontSize="22"/>
         <TextBlock Margin="25,182,31,188" FontSize="22">
             Ссылка на 
-            <Hyperlink NavigateUri="https://github.com/Dajemor/Upos-Service">github</Hyperlink>
+            <Hyperlink Click="Hyperlink_OnClick" NavigateUri="https://github.com/Dajemor/Upos-Service">github</Hyperlink>
         </TextBlock>
 
         <TextBox HorizontalAlignment="Left" Height="35" Margin="91,58,0,0" TextWrapping="Wrap" Text="dajemor666@gmail.com" VerticalAlignment="Top" Width="267" FontSize="22"/>
