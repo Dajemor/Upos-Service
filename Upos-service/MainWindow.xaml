@@ -1,0 +1,258 @@
+﻿<Window x:Class="Upos_service.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Upos_service"
+        mc:Ignorable="d"
+        Title="service Upos v.1.0.0Beta" Height="450" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="Style5centr">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Control.Margin" Value="5,5,5,0" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.Margin" Value="5,5,5,0" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Control.Margin" Value="5,5,5,0" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+        </Style>
+
+    </Window.Resources>
+    <StackPanel>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Помощь">
+                    <MenuItem Header="О программе"  Click="About_menu_click"/>
+                    <MenuItem Header="Проверить обновления"  Click="Version_menu_click"/>
+
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Grid Margin="1" ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <!--Левая панель-->
+                <DockPanel Margin="5" >
+                    <Label Content="Версия Upos"/>
+                    <ComboBox ToolTip="Выбор версии Upos,зависит от терминала"  x:Name="version_upos" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" />
+                </DockPanel>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.4*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Рабочая папка" Grid.Column="0" />
+                    <TextBox x:Name="box_target" Text="C:\sc552\" TabIndex="2" Grid.Column="1" TextChanged="box_target_TextChanged"/>
+                    <Button Margin="0" x:Name="select_dir" Grid.Column="2" Click="Select_dir_Click" Width="30" FontFamily="Segoe MDL2 Assets" Content="&#xE838;" FontSize="20" FontWeight="Bold" TabIndex="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" Padding="0"/>
+                </Grid>
+                <Button  Margin="5" Content="Установить в рабочую папку" Click="Copy_but_Click"/>
+                <Grid  Margin="5">
+                    <Button x:Name="adm_but" ToolTip="Перезапускает приложение с доступом администратора" Margin="20" Click="Adm_but_Click"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Opacity="0.8" Panel.ZIndex="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image x:Name="adm_img"  Height="28" Width="28" Margin="0,0,10,0"/>
+                            <TextBlock TextAlignment="Center"  Margin="0,0,30,0">Запустить от<LineBreak/>администратора</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <StackPanel Orientation="Vertical" x:Name="grid_adm">
+                        <TextBlock Margin="1" TextAlignment="Center">Драйвера для терминала</TextBlock>
+                        <UniformGrid Columns="3" Margin="3">
+                            <Button Margin="2" Content="Verifone"  Click="Button_Click_4"/>
+                            <Button Margin="2" Content="Pax" Click="Button_Click_6" />
+                            <Button Margin="2" Content="Ingenico"  Click="Button_Click_5" />
+                        </UniformGrid>
+                        <TextBlock Margin="1" TextAlignment="Center">Зарегистрировать</TextBlock>
+                        <UniformGrid Columns="2" Margin="3">
+                            <Button Margin="2" x:Name="but_dll" ToolTip="Позволяет зарегестрировать библиотеки" Content="Библиотеки"  Click="But_dll_Click"/>
+                            <Button Margin="2" x:Name="but_agent" ToolTip="Позволяет зарегестрировать агента" Content="Агент" Click="But_agent_Click"  />
+                        </UniformGrid>
+                    </StackPanel>
+                </Grid>
+                <Label   HorizontalContentAlignment="Center" Content="Работа с Com портом"/>
+                <Button  Margin="5,0,5,0" x:Name="but_port" ToolTip="Обновляет список портов" Content="Обновить порты" Click="But_port_Click"/>
+                <StackPanel  Margin="5" Orientation="Horizontal">
+                    <ListBox x:Name="list_serial" ToolTip="Отображает список портов" Height="100" Width="190" >
+
+
+                    </ListBox>
+                    <Button Content="=>" ToolTip="Копирует номер компорта в поле"  Margin="0"  Click="Button_Click_1" FontSize="11" Height="100" HorizontalAlignment="Right" Width="24" TabIndex="6">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="0.152" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
+                </StackPanel>
+                <Label   x:Name="status_lab" Content="Статус"/>
+            </StackPanel>
+            <!--Левая панель-->
+
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+                <!--Центральная панель-->
+                <TextBlock TextAlignment="Center" Margin="5">Работа с Pipad.ini</TextBlock>
+                <UniformGrid Columns="2" Rows="6">
+                    <Label x:Name="comp_lab" Content="ComPort=9" Style="{StaticResource Style5centr}"/>
+                    <TextBox x:Name="comp_tex" Text="9" TextChanged="Comp_tex_TextChanged" Style="{StaticResource Style5centr}"/>
+                    <Label x:Name="printend_lab" Content="printerend=01" Style="{StaticResource Style5centr}"/>
+                    <TextBox x:Name="ptinend_tex"  Text="01" TextChanged="Ptinend_tex_TextChanged" Style="{StaticResource Style5centr}"/>
+                    <Label x:Name="prifile_lab" Content="printerfile=p" Style="{StaticResource Style5centr}"/>
+                    <TextBox  x:Name="prfil_text" Text="p" TextChanged="Prfil_text_TextChanged" Style="{StaticResource Style5centr}" />
+                    <Label x:Name="pinl_text" Content="PinpadLog=0" Style="{StaticResource Style5centr}"/>
+                    <CheckBox x:Name="pinl_chek" VerticalAlignment="Center" Checked="CheckBox_Checked" Unchecked="Pinl_chek_Unchecked" />
+                    <Label x:Name="show_text" Content="ShowScreens=1" Style="{StaticResource Style5centr}"/>
+                    <CheckBox x:Name="show_chk" VerticalAlignment="Center" IsChecked="True" Checked="Show_chk_Checked" Unchecked="Show_chk_Unchecked" />
+                    <Button Content="Сбросить" Click="Clearpin_but_click" Margin="5"/>
+                    <Button x:Name="outfile" Content="Сохранить" Click="Savepin_but_click" Margin="5" />
+                </UniformGrid>
+
+            </StackPanel>
+            <!--Центральная панель-->
+            <StackPanel Orientation="Vertical" Grid.Column="2">
+                <!-- Правая панель-->
+                <Button Content="Проверка регистрации библиотек" ToolTip="Проверяет зарегестрированы ли библиотеки в системе" Click="Ready_sbrf_click"/>
+                <Grid x:Name="grid_term">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock TextAlignment="Center">Операции с терминалом</TextBlock>
+                    <UniformGrid Grid.Row="1" Columns="3" Rows="2">
+                        <TextBlock >Номер терминала</TextBlock>
+                        <TextBox x:Name="tid_tex" Text="00000000"/>
+                        <Button x:Name="get_tid_but" Content="Считать Тид"  Click="Get_tid_but_Click"/>
+                        <TextBlock >Код Активации</TextBlock>
+                        <TextBox x:Name="ka_tex" Text="00000000"/>
+                        <Button x:Name="uz_but" Content="Удаленная загрузка" Click="Uz_but_Click"/>
+                    </UniformGrid>
+                    <UniformGrid Grid.Row="2" Columns="4">
+                        <TextBlock>Сумма</TextBlock>
+                        <TextBox x:Name="sum_tex" Text="123"/>
+                        <Button x:Name="loadparm" Content="loadparm" Click="Loadparm_Click"/>
+                        <Button x:Name="delmac_but" Content="mac" Click="Delmac_but_Click"/>
+                    </UniformGrid>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="but_call" ToolTip="проверить связь с терминалом" Content="Связь с Терм"  Click="But_call_Click"/>
+                        <Label Grid.Column="1" x:Name="test" Content=""/>
+                        <Button Grid.Row="1" x:Name="pay_but" Content="Оплата" Click="Pay_but_Click"/>
+                        <Label Grid.Column="1" Grid.Row="1" x:Name="pay_stat" Content=""></Label>
+                        <Button Grid.Row="2" x:Name="canselpay_but" Content="Отмена" Click="Canselpay_but_Click"/>
+                        <Label Grid.Row="2" Grid.Column="1" x:Name="refund_stat" Content=""></Label>
+                        <Button Grid.Row="3" Content="Проверка связи" Click="Ping_but_click"/>
+                        <Label Grid.Row="3" Grid.Column="1" x:Name="ping_stat" Content=""></Label>
+                        <Button Grid.Row="4" Content="Сверка итогов" Click="Final_but_click" />
+                        <Label Grid.Row="4" Grid.Column="1" x:Name="final_stat" Content=""></Label>
+                        <Button Grid.Row="5" Content="Помощь" Click="Help_but_click"/>
+                        <Label Grid.Row="5" Grid.Column="1" x:Name="help_stat" Content=""></Label>
+                        <Button Grid.Row="6" Content="Возврат"  Click="Forward_but_click"/>
+                        <Label Grid.Row="6" Grid.Column="1" x:Name="rrefund_stat" Content=""></Label>
+                        <Button Grid.Row="7"  Content="Выполнить все" Click="Butt_all" />
+                        <Label Grid.Row="7" Grid.Column="1"></Label>
+                    </Grid>
+                    <Button Grid.Row="4" Content="Показать чеки" ToolTip="Открывает новое окно для отображения чеков"  Click="Open_form_cheque"/>
+
+                </Grid>
+            </StackPanel>
+            <!-- Правая панель-->
+
+            <Grid x:Name="overlay" HorizontalAlignment="Left" Height="397" VerticalAlignment="Top" Width="791" Grid.ColumnSpan="3" Visibility="Collapsed">
+                <Label Content="x" HorizontalAlignment="Left" Margin="55,180,0,0" VerticalAlignment="Top" Height="28" Width="117" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="z" HorizontalAlignment="Left" Margin="55,75,0,0" VerticalAlignment="Top" Height="28" Width="117" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="c" HorizontalAlignment="Left" Margin="190,285,0,0" VerticalAlignment="Top" Height="28" Width="33" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="v" HorizontalAlignment="Left" Margin="380,208,0,0" VerticalAlignment="Top" Height="28" Width="33" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="1" HorizontalAlignment="Left" Margin="503,155,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="2" HorizontalAlignment="Left" Margin="503,180,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="3" HorizontalAlignment="Left" Margin="503,208,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="4" HorizontalAlignment="Left" Margin="503,232,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="5" HorizontalAlignment="Left" Margin="503,257,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="q" HorizontalAlignment="Left" Margin="503,310,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="w" HorizontalAlignment="Left" Margin="566,334,0,0" VerticalAlignment="Top" Height="24" Width="117" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="e" HorizontalAlignment="Left" Margin="650,104,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+                <Label Content="p" HorizontalAlignment="Left" Margin="738,104,0,0" VerticalAlignment="Top" Height="16" Width="33" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FFE21717" Opacity="0.8"/>
+                    </Label.Background>
+                </Label>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</Window>
