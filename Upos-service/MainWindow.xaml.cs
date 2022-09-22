@@ -18,20 +18,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Brushes = System.Windows.Media.Brushes;
-using Control = System.Windows.Controls.Control;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
-
-
 namespace Upos_service
 {
-
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
-
         
         pinpadini spinpadini = new pinpadini();
         public Cheque saveCheque = new Cheque();
@@ -60,9 +55,7 @@ namespace Upos_service
                         BitmapSizeOptions.FromEmptyOptions());
                 adm_img.Source = wpfBitmap;
                 adm_img.Height = 38;
-
             }
-
             // передача параметров для перезапуска
             string[] args = Environment.GetCommandLineArgs();
             if (args.Count() > 1)
@@ -72,13 +65,11 @@ namespace Upos_service
                 this.Width = Int32.Parse(args[4]);
                 this.Height = Int32.Parse(args[5]);
             }
-
         }
         public static bool IsAdmin()
         {
             System.Security.Principal.WindowsIdentity id = System.Security.Principal.WindowsIdentity.GetCurrent();
             System.Security.Principal.WindowsPrincipal p = new System.Security.Principal.WindowsPrincipal(id);
-
             return p.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
         }
         //Метод копирования директории и файлов
@@ -91,9 +82,7 @@ namespace Upos_service
                 Directory.Move(target.FullName,
                     target.FullName.Remove(target.FullName.Length - 1) + "_old" + rnd.Next().ToString());
             }
-
             target.Create(); //создать директорию
-
             // копирование всех файлов
             FileInfo[] files = source.GetFiles();
             await Task.Run(() =>
@@ -104,14 +93,12 @@ namespace Upos_service
                     Dispatcher.BeginInvoke(new ThreadStart(delegate { status.Content = "Скопировано: " + file.Name;}));
                   
                 }
-
                 DirectoryInfo[] dirs = source.GetDirectories();
                 foreach (DirectoryInfo dir in dirs)
                 {
                     string destinationDir = Path.Combine(target.FullName, dir.Name);
                     CopyDirectory(dir, new DirectoryInfo(destinationDir), status);
                 }
-
                 Dispatcher.BeginInvoke(new ThreadStart(delegate { status.Content = "Готово"; })); 
             });
         }
@@ -129,7 +116,6 @@ namespace Upos_service
                 MessageBox.Show(exception.Message);
             }
         }
-
         private void But_dll_Click(object sender, RoutedEventArgs e)
         {
             Newprocces("regsvr32", boxpath+ @"sbrf.dll "+boxpath +"sbrfcom.dll");
@@ -154,7 +140,6 @@ namespace Upos_service
                 MessageBox.Show(e.Message);
             }
         }
-
         //Запуск службы
         public static void StartService(string serviceName)
         {
@@ -178,9 +163,7 @@ namespace Upos_service
             catch (System.InvalidOperationException e)
             {
                 MessageBox.Show(e.Message);
-
             }
-
         }
         
         private void But_agent_Click(object sender, RoutedEventArgs e)
@@ -189,15 +172,12 @@ namespace Upos_service
             Newprocces("cmd.exe", $"/C {boxpath}agent.exe /reg").ContinueWith(x => StartService("Upos2Agent"));
           
         }
-
         
       //  comPort.vid == "VID_079B&PID_0028"|| comPort.vid == "VID_1234&PID_0101" || comPort.vid == "VID_193A&PID_1000" || comPort.vid == "VID_11ca&PID_0219"
-
         private void But_port_Click(object sender, RoutedEventArgs e)
         {
             list_serial.Items.Clear();
             foreach (COMPortInfo comPort in COMPortInfo.GetCOMPortsInfo())
-
             {// ingenico /pax/ /verifone/ verifone
                 if (Vidorig.Contains(comPort.vid))
                 {
@@ -214,12 +194,9 @@ namespace Upos_service
             }
             
         }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             string sel;
-
-
             if ( list_serial.SelectedItem != null)
             {
                 sel = list_serial.SelectedItem.ToString();
@@ -234,15 +211,10 @@ namespace Upos_service
             }
             comp_lab.Content = "ComPort="+sel;
             comp_tex.Text = sel;
-
         }
-
          
      int p = 3;
-
         
-
-
         private async void But_call_Click(object sender, RoutedEventArgs e)
         {
             
@@ -262,30 +234,23 @@ namespace Upos_service
             }
             but_call.IsEnabled = true;
             list_serial.IsEnabled = true;
-
         }
-
-
         #region Pinpad.ini
-
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             spinpadini.PinpadLog = "PinpadLog=1";
             pinl_text.Content = spinpadini.PinpadLog;
         }
-
         private void Pinl_chek_Unchecked(object sender, RoutedEventArgs e)
         {
             spinpadini.PinpadLog = "PinpadLog=0";
             pinl_text.Content = spinpadini.PinpadLog;
         }
-
         private void Show_chk_Checked(object sender, RoutedEventArgs e)
         {
             spinpadini.ShowScreens = "ShowScreens=1";
             show_text.Content = spinpadini.ShowScreens;
         }
-
         private void Show_chk_Unchecked(object sender, RoutedEventArgs e)
         {
             spinpadini.ShowScreens = "ShowScreens=0";
@@ -296,13 +261,11 @@ namespace Upos_service
             spinpadini.printerend = "printerend=" + ptinend_tex.Text;
             printend_lab.Content = spinpadini.printerend;
         }
-
         private void Comp_tex_TextChanged(object sender, TextChangedEventArgs e)
         {
             spinpadini.ComPort = "ComPort=" + comp_tex.Text;
             comp_lab.Content = spinpadini.ComPort;
         }
-
         private void Prfil_text_TextChanged(object sender, TextChangedEventArgs e)
         {   
             spinpadini.printerfile = "printerfile=" + prfil_text.Text;
@@ -362,7 +325,6 @@ namespace Upos_service
                     str = $"{spinpadini.ShowScreens}\r\n" + str;
                 }
             }
-
             //ComPort
             {
                 if (Regex.IsMatch(str, "ComPort=[0-9]+"))
@@ -372,20 +334,14 @@ namespace Upos_service
                     str = $"{spinpadini.ComPort}\r\n" + str;
                 }
             }
-
-
             using (System.IO.StreamWriter file = new System.IO.StreamWriter($"{boxpath}/pinpad.ini"))
             {
                 file.Write(str);
             }
-
             status_lab.Content = "Pinpad.ini сохранен";
         }
-
         #endregion
-
         #region install drivers
-
         //установить драйвер верифон
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -393,7 +349,6 @@ namespace Upos_service
             {
                 DirectoryInfo sourse = new DirectoryInfo(@"drivers\VeriFone\");
                 DirectoryInfo target = new DirectoryInfo(boxpath+ @"\VeriFone");
-
               CopyDirectory(sourse, target, status_lab).ContinueWith(x=>Newprocces(boxpath + @"\VeriFone\setup.bat", "")) ;
                 
             }
@@ -430,9 +385,7 @@ namespace Upos_service
                 MessageBox.Show(exception.Message);
             }
         }
-
         #endregion
-
         
         //выполнить удаленную загрузку
         private void Uz_but_Click(object sender, RoutedEventArgs e)
@@ -442,7 +395,6 @@ namespace Upos_service
                 delegate { grid_term.IsEnabled = true; }))); 
             
         }
-
        
         //выполнить отмену
         private async void Canselpay_but_Click(object sender, RoutedEventArgs e)
@@ -455,14 +407,12 @@ namespace Upos_service
         //сверка итогов
         private async void  Final_but_click(object sender, RoutedEventArgs e)
         {
-
            grid_term.IsEnabled = false;
             saveCheque.Final_ = await pin.FinaldayAsync();
             Status(saveCheque.Final_,final_stat);
             grid_term.IsEnabled = true;
             
         }
-
         private void Status(string cheque, Label status)
         {
             if (cheque.Length > 10)
@@ -510,7 +460,6 @@ namespace Upos_service
             Status(saveCheque.Help_,help_stat);
            
             grid_term.IsEnabled = true;
-
         }
         //выполнить проверку связи
         private async void Ping_but_click(object sender, RoutedEventArgs e)
@@ -527,7 +476,6 @@ namespace Upos_service
             tid_tex.Text = await pin.AsyncTid();
             grid_term.IsEnabled = true;
         }
-
        
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -541,24 +489,19 @@ namespace Upos_service
             {
                grid_term.IsEnabled = false;
             }
-
             //получаем список версий
             
             DirectoryInfo verspath = new DirectoryInfo(@"upos\");
             if (verspath.Exists)
             {
-
             
             DirectoryInfo[] vers = verspath.GetDirectories();
-
             for (int i = 0; i < vers.Length; i++)
             {
                 version_upos.Items.Add(vers[i]);
             }
-
             version_upos.SelectedIndex = 0;
             foreach (COMPortInfo comPort in COMPortInfo.GetCOMPortsInfo())
-
             {
                 if (Vidorig.Contains(comPort.vid))
                 {
@@ -572,14 +515,11 @@ namespace Upos_service
                     list_serial.Items.Add(comPort.Name + "/" + comPort.Description);
                 }
             }
-
             }
         }
-
         private void Ready_sbrf_click(object sender, RoutedEventArgs e)
         {
             pin = new SBRFpin();
-
             if (pin.Sbrfready() == true)
             {
                 grid_term.IsEnabled = true;
@@ -589,7 +529,6 @@ namespace Upos_service
                 grid_term.IsEnabled = false;
             }
         }
-
         private void Adm_but_Click(object sender, RoutedEventArgs e)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -598,7 +537,6 @@ namespace Upos_service
             startInfo.FileName = System.Windows.Forms.Application.ExecutablePath;
             startInfo.Arguments = "restart " + this.Left + " "
                                   + this.Top + " " + this.Width + " " + this.Height;
-
             startInfo.Verb = "runas";
             try
             {
@@ -610,13 +548,11 @@ namespace Upos_service
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void Open_form_cheque(object sender, RoutedEventArgs e)
         {
             Window1 win2 = new Window1(saveCheque);
             win2.Show();
         }
-
         private void Select_dir_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -627,13 +563,11 @@ namespace Upos_service
         }
         //обновление
         
-
         private void About_menu_click(object sender, RoutedEventArgs e)
         {
             About form = new About();
             form.Show();
         }
-
         private void Version_menu_click(object sender, RoutedEventArgs e)
         {
             try
@@ -644,7 +578,6 @@ namespace Upos_service
                 Version latestVersion = new Version(http.GetStringAsync(@"https://raw.githubusercontent.com/Dajemor/Upos-Service/master/version.txt").GetAwaiter().GetResult());
                 if (latestVersion > currentVersion)
                 {
-
                     var result = MessageBox.Show("Найдена новая версия, Скачать?","Обновление", MessageBoxButton.YesNo,MessageBoxImage.Information);
                     if (result == MessageBoxResult.Yes)
                     {
@@ -666,12 +599,10 @@ namespace Upos_service
         //привязка к клавишам
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-
             if (e.Key == Key.LeftCtrl)
             {
                 overlay.Visibility = Visibility.Visible;
             }
-
             if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 Copy_but_Click(sender, e);
@@ -681,7 +612,6 @@ namespace Upos_service
                 But_dll_Click(sender, e);
                 But_agent_Click(sender, e);
             }
-
             if (e.Key == Key.C && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 Button_Click_1(sender, e);
@@ -690,7 +620,6 @@ namespace Upos_service
             {
                 Savepin_but_click(sender, e);
             }
-
             if (e.Key == Key.D1 && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 Pay_but_Click(sender, e);
@@ -727,10 +656,7 @@ namespace Upos_service
             {
                 Delmac_but_Click(sender, e);
             }
-
-
         }
-
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.LeftCtrl)
@@ -738,28 +664,22 @@ namespace Upos_service
                 overlay.Visibility = Visibility.Collapsed;
             }
         }
-
         private void Loadparm_Click(object sender, RoutedEventArgs e)
         {
             grid_term.IsEnabled = false;
             Newprocces($"{boxpath}/loadparm.exe", $"11").ContinueWith(x => Dispatcher.BeginInvoke(new ThreadStart(
                 delegate { grid_term.IsEnabled = true;})));
-
            // grid_term.IsEnabled = true;
             // await pin.Sb_pilotAsync(@"C:/sc552/sbrf.dll 11");
         }
-
         private void Delmac_but_Click(object sender, RoutedEventArgs e)
         {
            Newprocces($"{boxpath}/loadparm.exe", $"22");
             // await pin.Sb_pilotAsync(@"C:/sc552/sbrf.dll 22");
         }
-
         private async void Butt_all(object sender, RoutedEventArgs e)
         {
             grid_term.IsEnabled = false;
-
-
             //Final_but_click(sender, e);
             saveCheque.Final_ = await pin.FinaldayAsync();
             Status(saveCheque.Final_, final_stat);
@@ -792,12 +712,9 @@ namespace Upos_service
             Status(saveCheque.Help_, help_stat);
             grid_term.IsEnabled = true;
         }
-
         private void box_target_TextChanged(object sender, TextChangedEventArgs e)
         {
             boxpath = box_target.Text;
         }
     }
     }
-
-

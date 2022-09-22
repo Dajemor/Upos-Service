@@ -16,11 +16,9 @@
             Ссылка на 
             <Hyperlink Click="Hyperlink_OnClick" NavigateUri="https://github.com/Dajemor/Upos-Service">github</Hyperlink>
         </TextBlock>
-
         <TextBox HorizontalAlignment="Left" Height="35" Margin="91,58,0,0" TextWrapping="Wrap" Text="dajemor666@gmail.com" VerticalAlignment="Top" Width="267" FontSize="22"/>
         <Button Content="Закрыть" HorizontalAlignment="Left" Margin="133,236,0,0" VerticalAlignment="Top" Width="123" Height="42" FontSize="20" Click="Button_Click"/>
         <Label Content="Свои пожелания, предложения и найденые ошибки " HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Height="41" FontSize="16"/>
         <Label Content="лучше присылать в телеграмм" HorizontalAlignment="Left" Margin="91,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,0.057" FontSize="16"/>
-
     </Grid>
 </Window>

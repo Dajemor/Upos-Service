@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-
 namespace Upos_service
 {
     public class SBRFpin : IDisposable
@@ -10,13 +9,10 @@ namespace Upos_service
         private dynamic _pinpad;
         public SBRFpin()
        {
-
            CreatePin();
        }
-
         public void CreatePin()
         {
-            
             var t1 = Task.Factory.StartNew(() =>
             { 
                 try
@@ -26,16 +22,12 @@ namespace Upos_service
                 }
                 catch (Exception)
                 {
-                    
                     MessageBox.Show("Библиоотека не зарегестрирована");
                     //_pinpad = null;
                 }
             });
             t1.Wait();
-            
-            
         }
-
         public bool Sbrfready()
         {
             if (_pinpad == null)
@@ -51,7 +43,6 @@ namespace Upos_service
         {
             _pinpad.Clear();
             int result = await Task.Factory.StartNew(() => _pinpad.NFun(15));
-
             if (result == 0)
                 return  _pinpad.GParamString("TermNum");
             else
@@ -66,7 +57,6 @@ namespace Upos_service
            int result=await Task.Factory.StartNew(() => _pinpad.NFun(13));
             return result;
         }
-
         public async Task<string> PayAsync(int amount)
         {
             _pinpad.Clear();
@@ -90,7 +80,6 @@ namespace Upos_service
                 return result.ToString();
             }
         }
-
         public async Task<string> FinaldayAsync()
         {
             _pinpad.Clear();
@@ -114,7 +103,6 @@ namespace Upos_service
                 return  result.ToString();
             }
         }
-
         public async Task<string> Sb_pilotAsync(string pathcom)
         {
             _pinpad.Clear();

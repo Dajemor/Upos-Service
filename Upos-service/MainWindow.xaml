@@ -14,7 +14,6 @@
         <Style TargetType="Button">
             <Setter Property="Control.Margin" Value="5,5,5,0" />
             <Setter Property="Control.VerticalContentAlignment" Value="Center" />
-
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Control.Margin" Value="5,5,5,0" />
@@ -24,7 +23,6 @@
             <Setter Property="Control.Margin" Value="5,5,5,0" />
             <Setter Property="Control.VerticalContentAlignment" Value="Center" />
         </Style>
-
     </Window.Resources>
     <StackPanel>
         <DockPanel>
@@ -32,7 +30,6 @@
                 <MenuItem Header="Помощь">
                     <MenuItem Header="О программе"  Click="About_menu_click"/>
                     <MenuItem Header="Проверить обновления"  Click="Version_menu_click"/>
-
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -84,8 +81,6 @@
                 <Button  Margin="5,0,5,0" x:Name="but_port" ToolTip="Обновляет список портов" Content="Обновить порты" Click="But_port_Click"/>
                 <StackPanel  Margin="5" Orientation="Horizontal">
                     <ListBox x:Name="list_serial" ToolTip="Отображает список портов" Height="100" Width="190" >
-
-
                     </ListBox>
                     <Button Content="=>" ToolTip="Копирует номер компорта в поле"  Margin="0"  Click="Button_Click_1" FontSize="11" Height="100" HorizontalAlignment="Right" Width="24" TabIndex="6">
                         <Button.RenderTransform>
@@ -101,7 +96,6 @@
                 <Label   x:Name="status_lab" Content="Статус"/>
             </StackPanel>
             <!--Левая панель-->
-
             <StackPanel Orientation="Vertical" Grid.Column="1">
                 <!--Центральная панель-->
                 <TextBlock TextAlignment="Center" Margin="5">Работа с Pipad.ini</TextBlock>
@@ -119,7 +113,6 @@
                     <Button Content="Сбросить" Click="Clearpin_but_click" Margin="5"/>
                     <Button x:Name="outfile" Content="Сохранить" Click="Savepin_but_click" Margin="5" />
                 </UniformGrid>
-
             </StackPanel>
             <!--Центральная панель-->
             <StackPanel Orientation="Vertical" Grid.Column="2">
@@ -142,12 +135,18 @@
                         <TextBox x:Name="ka_tex" Text="00000000"/>
                         <Button x:Name="uz_but" Content="Удаленная загрузка" Click="Uz_but_Click"/>
                     </UniformGrid>
-                    <UniformGrid Grid.Row="2" Columns="4">
-                        <TextBlock>Сумма</TextBlock>
-                        <TextBox x:Name="sum_tex" Text="123"/>
-                        <Button x:Name="loadparm" Content="loadparm" Click="Loadparm_Click"/>
-                        <Button x:Name="delmac_but" Content="mac" Click="Delmac_but_Click"/>
-                    </UniformGrid>
+                    <Grid Grid.Row="2" >
+                        <Grid.ColumnDefinitions>
+                           <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">Сумма</TextBlock>
+                        <TextBox Grid.Column="1" x:Name="sum_tex" Text="123"/>
+                        <Button Grid.Column="2" x:Name="loadparm" Content="loadparm" Click="Loadparm_Click"/>
+                        <Button Grid.Column="3" x:Name="delmac_but" Content="Удаление Ключей" Click="Delmac_but_Click"/>
+                    </Grid>
                     <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -181,11 +180,9 @@
                         <Label Grid.Row="7" Grid.Column="1"></Label>
                     </Grid>
                     <Button Grid.Row="4" Content="Показать чеки" ToolTip="Открывает новое окно для отображения чеков"  Click="Open_form_cheque"/>
-
                 </Grid>
             </StackPanel>
             <!-- Правая панель-->
-
             <Grid x:Name="overlay" HorizontalAlignment="Left" Height="397" VerticalAlignment="Top" Width="791" Grid.ColumnSpan="3" Visibility="Collapsed">
                 <Label Content="x" HorizontalAlignment="Left" Margin="55,180,0,0" VerticalAlignment="Top" Height="28" Width="117" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center">
                     <Label.Background>
